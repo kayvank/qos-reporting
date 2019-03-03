@@ -1,0 +1,362 @@
+{
+    "stages": [
+        {
+            "clean_working_directory": true,
+            "never_cleanup_artifacts": false,
+            "approval": {
+                "type": "success",
+                "authorization": {
+                    "roles": [],
+                    "users": []
+                }
+            },
+            "fetch_materials": true,
+            "environment_variables": [
+                {
+                    "value": "dev",
+                    "secure": false,
+                    "name": "AWS_ACCOUNT"
+                }
+            ],
+            "name": "build",
+            "jobs": [
+                {
+                    "properties": null,
+                    "tasks": [
+                        {
+                            "type": "exec",
+                                "arguments": [
+                                    "build"
+                                ],
+                                "on_cancel": null,
+                                "run_if":
+                                    "passed",
+                                "command": "make",
+                                "working_directory": null
+
+                        },
+                        {
+                            "type": "exec",
+                            "arguments": [
+                                "slack_failure"
+                            ],
+                            "on_cancel": null,
+                            "run_if":
+                                "failed"
+                            ,
+                            "command": "make",
+                            "working_directory": null
+
+                        }
+                    ],
+                    "artifacts": [],
+                    "name": "build",
+                    "environment_variables": [],
+                    "timeout": null,
+                    "tabs": [],
+                    "run_instance_count": null,
+                    "resources": []
+                }
+            ]
+        },
+        {
+            "clean_working_directory": false,
+            "never_cleanup_artifacts": false,
+            "approval": {
+                "type": "success",
+                "authorization": {
+                    "roles": [],
+                    "users": []
+                }
+            },
+            "fetch_materials": true,
+            "environment_variables": [
+                {
+                    "value": "dev",
+                    "secure": false,
+                    "name": "AWS_ACCOUNT"
+                }
+            ],
+            "name": "deploy-dev",
+            "jobs": [
+                {
+                    "properties": null,
+                    "tasks": [
+                        {
+                            "type": "exec",
+
+                                "arguments": [
+                                    "deploy_dev"
+                                ],
+                                "on_cancel": null,
+                                "run_if":
+                                    "passed",
+                                "command": "make",
+                                "working_directory": null
+
+                        },
+                        {
+                            "type": "exec",
+
+                                "arguments": [
+                                    "slack_success"
+                                ],
+                                "on_cancel": null,
+                                "run_if":
+                                    "passed",
+                                "command": "make",
+                                "working_directory": null
+
+                        },
+                        {
+                            "type": "exec",
+
+                                "arguments": [
+                                    "slack_failure"
+                                ],
+                                "on_cancel": null,
+                                "run_if": "failed",
+                                "command": "make",
+                                "working_directory": null
+
+                        },
+                        {
+                            "type": "exec",
+
+                                "arguments": [
+                                    "clean"
+                                ],
+                                "on_cancel": null,
+                                "run_if": "any",
+                                "command": "make",
+                                "working_directory": null
+
+                        }
+                    ],
+                    "artifacts": [],
+                    "name": "deploy",
+                    "environment_variables": [],
+                    "timeout": null,
+                    "tabs": [],
+                    "run_instance_count": null,
+                    "resources": []
+                }
+            ]
+        },
+        {
+            "clean_working_directory": false,
+            "never_cleanup_artifacts": false,
+            "approval": {
+                "type": "manual",
+                "authorization": {
+                    "roles": [],
+                    "users": []
+                }
+            },
+            "fetch_materials": true,
+            "environment_variables": [
+                {
+                    "value": "stg",
+                    "secure": false,
+                    "name": "AWS_ACCOUNT"
+                }
+            ],
+            "name": "deploy-stg",
+            "jobs": [
+                {
+                    "properties": null,
+                    "tasks": [
+                        {
+                            "type": "exec",
+
+                                "arguments": [
+                                    "deploy_stg"
+                                ],
+                                "on_cancel": null,
+                                "run_if":
+                                    "passed",
+                                "command": "make",
+                                "working_directory": null
+
+                        },
+                        {
+                            "type": "exec",
+
+                                "arguments": [
+                                    "slack_success"
+                                ],
+                                "on_cancel": null,
+                                "run_if":
+                                    "passed",
+                                "command": "make",
+                                "working_directory": null
+
+                        },
+                        {
+                            "type": "exec",
+
+                                "arguments": [
+                                    "slack_failure"
+                                ],
+                                "on_cancel": null,
+                                "run_if":
+                                    "failed",
+                                "command": "make",
+                                "working_directory": null
+
+                        },
+                        {
+                            "type": "exec",
+
+                                "arguments": [
+                                    "clean"
+                                ],
+                                "on_cancel": null,
+                                "run_if":
+                                    "any",
+                                "command": "make",
+                                "working_directory": null
+
+                        }
+                    ],
+                    "artifacts": [],
+                    "name": "deploy",
+                    "environment_variables": [],
+                    "timeout": null,
+                    "tabs": [],
+                    "run_instance_count": null,
+                    "resources": []
+                }
+            ]
+        },
+        {
+            "clean_working_directory": false,
+            "never_cleanup_artifacts": false,
+            "approval": {
+                "type": "manual",
+                "authorization": {
+                    "roles": [],
+                    "users": []
+                }
+            },
+            "fetch_materials": true,
+            "environment_variables": [
+                {
+                    "value": "prd",
+                    "secure": false,
+                    "name": "AWS_ACCOUNT"
+                },
+                {
+                    "value": "##data-deploys,##production-releases",
+                    "secure": false,
+                    "name": "SLACK_CHANNELS"
+                }
+            ],
+            "name": "deploy-prd",
+            "jobs": [
+                {
+                    "properties": null,
+                    "tasks": [
+                        {
+                            "type": "exec",
+
+                                "arguments": [
+                                    "deploy_prd"
+                                ],
+                                "on_cancel": null,
+                                "run_if":
+                                    "passed",
+                                "command": "make",
+                                "working_directory": null
+
+                        },
+                        {
+                            "type": "exec",
+
+                                "arguments": [
+                                    "slack_success"
+                                ],
+                                "on_cancel": null,
+                                "run_if":
+                                    "passed",
+                                "command": "make",
+                                "working_directory": null
+
+                        },
+                        {
+                            "type": "exec",
+
+                                "arguments": [
+                                    "slack_failure"
+                                ],
+                                "on_cancel": null,
+                                "run_if":
+                                    "failed",
+                                "command": "make",
+                                "working_directory": null
+
+                        },
+                        {
+                            "type": "exec",
+
+                                "arguments": [
+                                    "clean"
+                                ],
+                                "on_cancel": null,
+                                "run_if": "passed",
+                                "command": "make",
+                                "working_directory": null
+
+                        }
+                    ],
+                    "artifacts": [],
+                    "name": "deploy",
+                    "environment_variables": [],
+                    "timeout": null,
+                    "tabs": [],
+                    "run_instance_count": null,
+                    "resources": []
+                }
+            ]
+        }
+    ],
+    "parameters": [],
+    "timer": null,
+    "name": "qos-reporting",
+    "enable_pipeline_locking": false,
+    "template": null,
+    "materials": [
+        {
+            "type": "git",
+            "branch": "master",
+            "destination": null,
+            "name": null,
+            "invert_filter": false,
+            "submodule_folder": null,
+            "shallow_clone": false,
+            "url": "git@github.com:VEVO/qos-reporting.git",
+            "auto_update": true,
+            "filter": null
+            
+        }
+    ],
+    "tracking_tool": null,
+    "group": "data-team",
+    "environment_variables": [
+        {
+            "value": "##data-deploys",
+            "secure": false,
+            "name": "SLACK_CHANNELS"
+        },
+        {
+            "value": "us-east-1",
+            "secure": false,
+            "name": "AWS_REGION"
+        },
+        {
+            "value": "services",
+            "secure": false,
+            "name": "CLUSTER"
+        }
+    ]
+}

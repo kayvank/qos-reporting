@@ -1,0 +1,27 @@
+version: '2'
+services:
+  slack_notify:
+    image: vevo/slack-notify:$SLACK_NOTIFY_VERSION
+    environment:
+      GO_PIPELINE_NAME: $GO_PIPELINE_NAME
+      GO_PIPELINE_COUNTER: $GO_PIPELINE_COUNTER
+      GO_FROM_REVISION: $GO_FROM_REVISION
+      GO_TO_REVISION: $GO_TO_REVISION
+      AWS_ACCOUNT: $AWS_ACCOUNT
+    volumes:
+      - .:/repos
+
+  success:
+    extends:
+      service: slack_notify
+    environment:
+      EXTRA_FIELDS: "project/slack-fields.json"
+      SUCCESS: "true"
+      SLACK_CHANNELS: $SLACK_CHANNELS
+
+  failure:
+    extends:
+      service: slack_notify
+    environment:
+      SUCCESS: "false"
+      SLACK_CHANNELS: $SLACK_CHANNELS

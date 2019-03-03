@@ -1,0 +1,16 @@
+version: '2'
+services:
+  qos-reporting:
+    image: vevo/qos-reporting
+    ports:
+      - "9000:9000"
+    environment:
+      AWS_ACCESS_KEY: $ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+      JDBC_URL: $JDBC_URL
+      JDBC_USER: $JDBC_USER
+      JDBC_PASSWORD: $JDBC_PASSWORD
+      STATSD_TAG_ENV: $STATSD_TAG_ENV
+      DD_API_KEY: $DD_API_KEY
+    volumes:
+      - "/var"

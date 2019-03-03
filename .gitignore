@@ -1,0 +1,23 @@
+logs
+*.db
+target/
+.tags
+tags
+.TAGS
+TAGS
+.ensime.msg.counter
+ensime_port
+.ensime
+.ensime_cache/
+.\#*
+.history
+.cache
+.DS_Store
+.envrc
+.env
+native/
+*.swp
+buildinfo.properties
+stringer_build/
+## local overrides
+local.conf

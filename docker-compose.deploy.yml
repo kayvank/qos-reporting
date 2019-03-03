@@ -1,0 +1,25 @@
+version: '2'
+volumes:
+  config:
+  build:
+services:
+  stringer:
+    image: vevo/stringer:$STRINGER_VERSION
+    volumes:
+      - ./stringer_spec:/spec:ro
+      - build:/build
+      - config:/root/.aws
+    environment:
+      BUILD_DIR: /build
+      SPEC_DIR: /spec
+      AWS_REGION: "us-east-1"
+      CLUSTER: "services"
+      AWS_ACCOUNT: $AWS_ACCOUNT
+      AWS_PROFILE: default
+  config:
+    image: vevo/stringer-awsconfig:0.1.0-b2
+    environment:
+      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+    volumes:
+      - config:/data
